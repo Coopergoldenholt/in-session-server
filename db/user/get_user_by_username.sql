@@ -1,0 +1,1 @@
+SELECT * FROM users WHERE LOWER(username) = $1;
