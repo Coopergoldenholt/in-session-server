@@ -29,7 +29,7 @@ app.post("/api/stream", liveStreamCtrl.scheduleLiveStream);
 
 //Stripe Calls
 app.post("/api/connected-user", stripeCtrl.createConnectedAccount);
-app.post("/api/card", stripeCtrl.createConnectedAccount);
+app.post("/api/card", stripeCtrl.createCardForPurchases);
 
 //Session
 app.post("/api/user/register", sessionCtrl.createUser);

@@ -5,7 +5,9 @@ CREATE TABLE "users" (
   "email" varchar(300) unique,
   "created_at" timestamp,
   "profile_pic" text,
-  "stripe_id" text
+  "stripe_id" text,
+  "connected_account_id" text,
+  "country" varchar(50)
 );
 
 CREATE TABLE "live_streams" (

@@ -50,6 +50,7 @@ module.exports = {
 				stripeId: saveUser.stripe_id,
 				email: saveUser.email,
 				username: username,
+				connectedAccount: user.connected_account_id,
 			};
 
 			res.status(200).send(userObj);
@@ -75,6 +76,7 @@ module.exports = {
 					stripeId: user.stripe_id,
 					email: user.email,
 					username: user.username,
+					connectedAccount: user.connected_account_id,
 				};
 				res.status(200).send(userObj);
 			} else {
