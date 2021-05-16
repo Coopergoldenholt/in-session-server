@@ -24,8 +24,9 @@ module.exports = {
 			price,
 			keyWords,
 			thumbnail,
-			title,
-			scheduleTime,
+			userId,
+			startStream,
+			streamDescription,
 		} = req.body;
 
 		const videoObj = await Video.LiveStreams.create({
@@ -34,6 +35,32 @@ module.exports = {
 			new_asset_settings: { playback_policy: "public" },
 		});
 
-		console.log(videoObj);
+		console.log(videoObj.playback_ids[0].id);
+		const stream = await db.live_stream.insert_live_stream([
+			videoObj.stream_key,
+			videoObj.playback_ids[0].id,
+			streamTitle,
+			thumbnail.uri,
+			date,
+			keyWords,
+			userId,
+			private,
+			startStream,
+			false,
+			price,
+			streamDescription,
+			0,
+		]);
+
+		res.status(200).send(stream);
+	},
+	getScheduledLiveStreams: async (req, res) => {
+		const db = req.app.get("db");
+
+		const date = new Date();
+
+		const liveStreams = await db.live_stream.get_live_streams([date]);
+
+		res.status(200).send(liveStreams);
 	},
 };

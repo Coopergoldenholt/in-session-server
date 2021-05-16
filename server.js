@@ -25,7 +25,9 @@ app.use(express.json());
 // 	res.send({ roomId: req.params.room });
 // });
 
+//Stream Calls
 app.post("/api/stream", liveStreamCtrl.scheduleLiveStream);
+app.get("/api/scehduled-streams", liveStreamCtrl.getScheduledLiveStreams);
 
 //Stripe Calls
 app.post("/api/connected-user", stripeCtrl.createConnectedAccount);

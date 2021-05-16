@@ -49,6 +49,7 @@ module.exports = {
 				profilePic: saveUser.profile_pic,
 				stripeId: saveUser.stripe_id,
 				email: saveUser.email,
+				userId: saveUser.id,
 				username: username,
 				connectedAccount: user.connected_account_id,
 			};
@@ -75,6 +76,7 @@ module.exports = {
 					profilePic: user.profile_pic,
 					stripeId: user.stripe_id,
 					email: user.email,
+					userId: user.id,
 					username: user.username,
 					connectedAccount: user.connected_account_id,
 				};

@@ -4,25 +4,38 @@ CREATE TABLE "users" (
   "last_name" varchar,
   "email" varchar(300) unique,
   "created_at" timestamp,
-  "profile_pic" text,
+  "profile_pic" int,
   "stripe_id" text,
   "connected_account_id" text,
   "country" varchar(50)
 );
 
 CREATE TABLE "live_streams" (
-  "id" int PRIMARY KEY,
+  "id" SERIAL PRIMARY KEY,
   "stream_key" text,
   "playback_id" text,
+  "stream_title" varchar(2000),
+  "thumbnail" int,
   "scheduled_date" timestamp,
   "key_words" varchar(1001),
-  "user_id" int,
-  "start_date" timestamp,
-  "end_date" timestamp
+  "author_id" int,
+  "private" boolean,
+  "viewers" int,
+  "stream_info" varchar(10000),
+  "live" boolean,
+  "complete" boolean,
+  "price" int,
+  "total_interested" int
+);
+
+CREATE TABLE "private_connections"(
+  "id" SERIAL PRIMARY KEY,
+  "live_stream_id" int,
+  "user_id" int
 );
 
 CREATE TABLE "comments" (
-  "id" int PRIMARY KEY,
+  "id" SERIAL PRIMARY KEY,
   "content" varchar(10000),
   "user_id" int,
   "live_stream_id" int,
@@ -30,22 +43,22 @@ CREATE TABLE "comments" (
   "post_date" timestamp
 );
 
-CREATE TABLE "questions" (
-  "id" int PRIMARY KEY,
-  "content" varchar(10000),
-  "user_id" int,
-  "live_stream_id" int,
-  "time_answered" text,
-  "post_date" timestamp
-);
-
 CREATE TABLE "subscriptions" (
-  "id" int PRIMARY KEY,
+  "id" SERIAL PRIMARY KEY,
   "subscribed_user_id" int,
   "subscription_user_id" int
 );
 
-ALTER TABLE "live_streams" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");
+CREATE TABLE "images"(
+  "id" SERIAL PRIMARY KEY,
+  "base64" text
+)
+
+ALTER TABLE "users" ADD FOREIGN KEY ("profile_pic") REFERENCES "images" ("id");
+
+ALTER TABLE "live_streams" ADD FOREIGN KEY ("author_id") REFERENCES "users" ("id");
+
+ALTER TABLE "live_streams" ADD FOREIGN KEY ("thumbnail") REFERENCES "images" ("id");
 
 ALTER TABLE "comments" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");
 
@@ -53,10 +66,10 @@ ALTER TABLE "comments" ADD FOREIGN KEY ("live_stream_id") REFERENCES "live_strea
 
 ALTER TABLE "comments" ADD FOREIGN KEY ("comment_id") REFERENCES "comments" ("id");
 
-ALTER TABLE "questions" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");
-
-ALTER TABLE "questions" ADD FOREIGN KEY ("live_stream_id") REFERENCES "live_streams" ("id");
-
 ALTER TABLE "subscriptions" ADD FOREIGN KEY ("subscribed_user_id") REFERENCES "users" ("id");
 
 ALTER TABLE "subscriptions" ADD FOREIGN KEY ("subscription_user_id") REFERENCES "users" ("id");
+
+ALTER TABLE "private_connections" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");
+
+ALTER TABLE "private_connections" ADD FOREIGN KEY ("live_stream_id") REFERENCES "live_streams" ("id");
