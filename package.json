@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "@mux/mux-node": "^3.1.0",
+    "aws-sdk": "^2.908.0",
     "axios": "^0.21.1",
     "bcryptjs": "^2.4.3",
     "dotenv": "^8.2.0",

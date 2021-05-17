@@ -14,7 +14,7 @@ const liveStreamCtrl = require("./controllers/liveStreamController");
 const sessionCtrl = require("./controllers/sessionController");
 const stripeCtrl = require("./controllers/stripeController");
 
-app.use(express.json());
+app.use(express.json({ limit: "10mb", extended: true }));
 
 // app.get("/", (req, res) => {
 // 	res.redirect(`/${uuidv4()}`);

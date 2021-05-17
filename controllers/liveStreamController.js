@@ -1,5 +1,9 @@
 const Mux = require("@mux/mux-node");
 const axios = require("axios");
+const s3 = new AWS.S3({
+	accessKeyId: process.env.S3_BUCKET_ID,
+	secretAccessKey: process.env.S3_BUCKET_SECRET,
+});
 // assuming process.env.MUX_TOKEN_ID and process.env.MUX_TOKEN_SECRET
 // contain your credentials
 const { Video, Data } = new Mux(
@@ -34,13 +38,15 @@ module.exports = {
 			reconnect_window: 10,
 			new_asset_settings: { playback_policy: "public" },
 		});
-
-		console.log(videoObj.playback_ids[0].id);
+		console.log(thumbnail);
+		const [imageId] = await db.images.insert_image([thumbnail]);
+		console.log("goodbye");
+		console.log(imageId);
 		const stream = await db.live_stream.insert_live_stream([
 			videoObj.stream_key,
 			videoObj.playback_ids[0].id,
 			streamTitle,
-			thumbnail.uri,
+			imageId,
 			date,
 			keyWords,
 			userId,
