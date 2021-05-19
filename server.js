@@ -13,6 +13,7 @@ const { ExpressPeerServer } = require("peer");
 const liveStreamCtrl = require("./controllers/liveStreamController");
 const sessionCtrl = require("./controllers/sessionController");
 const stripeCtrl = require("./controllers/stripeController");
+const miscCtrl = require("./controllers/miscController");
 
 app.use(express.json({ limit: "10mb", extended: true }));
 
@@ -36,6 +37,9 @@ app.post("/api/card", stripeCtrl.createCardForPurchases);
 //Session
 app.post("/api/user/register", sessionCtrl.createUser);
 app.post("/api/user/login", sessionCtrl.loginUser);
+
+//Misc. Calls
+app.get("/api/image", miscCtrl.getPhoto);
 
 io.on("connection", (socket) => {
 	socket.on("create-class", (stream) => {

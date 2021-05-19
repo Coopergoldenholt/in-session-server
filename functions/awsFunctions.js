@@ -13,7 +13,7 @@ module.exports = {
 			"base64"
 		);
 		const type = base64.split(";")[0].split("/")[1];
-
+		let key = `${userId}/${uuidv4()}`;
 		const params = {
 			Bucket: process.env.BUCKET_NAME,
 			Key: `${userId}/${uuidv4()}`,
@@ -21,26 +21,26 @@ module.exports = {
 			ContentEncoding: "base64",
 			ContentType: `image/${type}`,
 		};
-		let imageData = null;
+
 		try {
-			const { Location } = await s3.upload(params).promise();
-			location = Location;
+			s3.upload(params).promise();
 		} catch (error) {
 			console.log(error);
 		}
 
-		return location;
+		return key;
 	},
-	getImageAWS: async (photoURI) => {
+	getImageAWS: async (key) => {
 		const params = {
 			Bucket: process.env.BUCKET_NAME,
-			Key: "3/c7cab229-03bb-4b43-8a34-5385755c51f1",
+			Key: key,
 		};
-		console.log("hello");
+
 		try {
-			await s3.getObject(params).then((res) => console.log(res));
-			//   .promise();
-			location = Location;
+			const { Body } = await s3.getObject(params).promise();
+			const imageBuffer = Buffer.from(JSON.stringify(Body));
+			const imageBase64 = imageBuffer.toString("base64");
+			return imageBase64;
 		} catch (error) {
 			console.log(error);
 		}

@@ -60,12 +60,11 @@ module.exports = {
 		res.status(200).send(stream);
 	},
 	getScheduledLiveStreams: async (req, res) => {
-		const stuff = await awsFunctions.getImageAWS();
-		// const db = req.app.get("db");
+		const db = req.app.get("db");
 
-		// const date = new Date();
+		const date = new Date();
 
-		// const liveStreams = await db.live_stream.get_live_streams([date]);
+		const liveStreams = await db.live_stream.get_live_streams([date]);
 
 		res.status(200).send("good");
 	},
