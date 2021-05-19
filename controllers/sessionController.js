@@ -9,10 +9,9 @@ module.exports = {
 		const lowerCaseEmail = email.toLowerCase();
 		const lowerCaseUsername = username.toLowerCase();
 		const [user] = await db.user.get_user_by_email(lowerCaseEmail);
-		const [usernameCheck] = await db.user.get_user_by_username(
-			lowerCaseUsername
-		);
-
+		const [usernameCheck] = await db.user.get_user_by_username([
+			lowerCaseUsername,
+		]);
 		if (user || usernameCheck) {
 			res.status(200).send({
 				username: typeof usernameCheck === "object",
@@ -41,6 +40,7 @@ module.exports = {
 				hash,
 				email,
 				username,
+				null,
 			]);
 			const userObj = {
 				firstName: saveUser.first_name,
@@ -51,7 +51,7 @@ module.exports = {
 				email: saveUser.email,
 				userId: saveUser.id,
 				username: username,
-				connectedAccount: user.connected_account_id,
+				connectedAccount: saveUser.connected_account_id,
 			};
 
 			res.status(200).send(userObj);

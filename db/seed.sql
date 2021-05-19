@@ -1,7 +1,9 @@
 CREATE TABLE "users" (
   "id" SERIAL PRIMARY KEY,
-  "first_name" varchar,
-  "last_name" varchar,
+  "first_name" varchar(100),
+  "last_name" varchar(100),
+  "password" text,
+  "username" varchar(100),
   "email" varchar(300) unique,
   "created_at" timestamp,
   "profile_pic" int,
@@ -51,7 +53,7 @@ CREATE TABLE "subscriptions" (
 
 CREATE TABLE "images"(
   "id" SERIAL PRIMARY KEY,
-  "base64" text
+  "image" text
 )
 
 ALTER TABLE "users" ADD FOREIGN KEY ("profile_pic") REFERENCES "images" ("id");
