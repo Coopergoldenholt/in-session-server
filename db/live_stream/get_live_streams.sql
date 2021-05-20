@@ -1,3 +1,3 @@
-select * from live_streams WHERE scheduled_date > $1 
-ORDER BY scheduled_date
-LIMIT 20;
+SELECT * FROM live_streams ls
+JOIN images ON ls.thumbnail = images.id
+LIMIT 100;

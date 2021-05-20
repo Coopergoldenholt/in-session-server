@@ -62,10 +62,10 @@ module.exports = {
 	getScheduledLiveStreams: async (req, res) => {
 		const db = req.app.get("db");
 
-		const date = new Date();
+		// const date = new Date();
 
-		const liveStreams = await db.live_stream.get_live_streams([date]);
+		const liveStreams = await db.live_stream.get_live_streams();
 
-		res.status(200).send("good");
+		res.status(200).send(liveStreams);
 	},
 };
