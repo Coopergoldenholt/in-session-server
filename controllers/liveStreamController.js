@@ -37,22 +37,21 @@ module.exports = {
 			new_asset_settings: { playback_policy: "public" },
 		});
 
-		const imageURL = await awsFunctions.postImageAWS(userId, thumbnail.uri);
-
-		const [imageId] = await db.images.insert_image([imageURL]);
+		const imageURL = await awsFunctions.saveImage(thumbnail.uri);
 
 		const stream = await db.live_stream.insert_live_stream([
 			videoObj.stream_key,
 			videoObj.playback_ids[0].id,
 			streamTitle,
-			imageId.id,
+			imageURL,
 			date,
 			keyWords,
-			userId,
+			// userId
+			1,
 			private,
 			startStream,
 			false,
-			price,
+			price ? price : null,
 			streamDescription,
 			0,
 		]);

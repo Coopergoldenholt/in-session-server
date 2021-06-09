@@ -1,4 +1,5 @@
 const AWS = require("aws-sdk");
+const fs = require("fs");
 const { v4: uuidv4 } = require("uuid");
 AWS.config = {
 	accessKeyId: process.env.S3_BUCKET_ID,
@@ -6,36 +7,22 @@ AWS.config = {
 };
 var s3 = new AWS.S3();
 module.exports = {
-	postImageAWS: async (userId, base64) => {
-		const type = base64.split(";")[0].split("/")[1];
-
-		const params = {
-			Bucket: process.env.BUCKET_NAME,
-			Key: `${userId}/${uuidv4()}`,
-			Body: base64,
-			ContentEncoding: "base64",
-			ContentType: `image/${type}`,
-		};
-		let newKey = "";
+	saveImage: async (image) => {
 		try {
-			const { key } = await s3.upload(params).promise();
-			newKey = key;
-		} catch (error) {
-			console.log(error);
-		}
+			const id = uuidv4();
+			// to declare some path to store your converted image
+			const path = "./images/" + id + ".jpeg";
 
-		return newKey;
-	},
-	getImageAWS: async (key) => {
-		const params = {
-			Bucket: process.env.BUCKET_NAME,
-			Key: `${key}`,
-		};
-		try {
-			const { Body } = await s3.getObject(params).promise();
-			return Body;
-		} catch (error) {
-			console.log(error);
+			const imgdata = image;
+
+			// to convert base64 format into random filename
+			const base64Data = imgdata.replace(/^data:([A-Za-z-+/]+);base64,/, "");
+
+			fs.writeFileSync(path, base64Data, { encoding: "base64" });
+			let url = `http://localhost:4327/${id}.jpeg`;
+			return url;
+		} catch (e) {
+			console.log(e);
 		}
 	},
 };

@@ -6,7 +6,7 @@ CREATE TABLE "users" (
   "username" varchar(100),
   "email" varchar(300) unique,
   "created_at" timestamp,
-  "profile_pic" int,
+  "profile_pic" text,
   "stripe_id" text,
   "connected_account_id" text,
   "country" varchar(50)
@@ -17,7 +17,7 @@ CREATE TABLE "live_streams" (
   "stream_key" text,
   "playback_id" text,
   "stream_title" varchar(2000),
-  "thumbnail" int,
+  "thumbnail" text,
   "scheduled_date" timestamp,
   "key_words" varchar(1001),
   "author_id" int,
@@ -30,11 +30,11 @@ CREATE TABLE "live_streams" (
   "total_interested" int
 );
 
-CREATE TABLE "private_connections"(
-  "id" SERIAL PRIMARY KEY,
-  "live_stream_id" int,
-  "user_id" int
-);
+-- CREATE TABLE "private_connections"(
+--   "id" SERIAL PRIMARY KEY,
+--   "live_stream_id" int,
+--   "user_id" int
+-- );
 
 CREATE TABLE "comments" (
   "id" SERIAL PRIMARY KEY,
@@ -51,16 +51,16 @@ CREATE TABLE "subscriptions" (
   "subscription_user_id" int
 );
 
-CREATE TABLE "images"(
-  "id" SERIAL PRIMARY KEY,
-  "image" text
-)
+-- CREATE TABLE "images"(
+--   "id" SERIAL PRIMARY KEY,
+--   "image" text
+-- )
 
-ALTER TABLE "users" ADD FOREIGN KEY ("profile_pic") REFERENCES "images" ("id");
+-- ALTER TABLE "users" ADD FOREIGN KEY ("profile_pic") REFERENCES "images" ("id");
 
 ALTER TABLE "live_streams" ADD FOREIGN KEY ("author_id") REFERENCES "users" ("id");
 
-ALTER TABLE "live_streams" ADD FOREIGN KEY ("thumbnail") REFERENCES "images" ("id");
+-- ALTER TABLE "live_streams" ADD FOREIGN KEY ("thumbnail") REFERENCES "images" ("id");
 
 ALTER TABLE "comments" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");
 
@@ -72,6 +72,6 @@ ALTER TABLE "subscriptions" ADD FOREIGN KEY ("subscribed_user_id") REFERENCES "u
 
 ALTER TABLE "subscriptions" ADD FOREIGN KEY ("subscription_user_id") REFERENCES "users" ("id");
 
-ALTER TABLE "private_connections" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");
+-- ALTER TABLE "private_connections" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");
 
-ALTER TABLE "private_connections" ADD FOREIGN KEY ("live_stream_id") REFERENCES "live_streams" ("id");
+-- ALTER TABLE "private_connections" ADD FOREIGN KEY ("live_stream_id") REFERENCES "live_streams" ("id");

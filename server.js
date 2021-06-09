@@ -17,6 +17,8 @@ const miscCtrl = require("./controllers/miscController");
 
 app.use(express.json({ limit: "10mb", extended: true }));
 
+app.use(express.static(__dirname + "/images"));
+
 // app.get("/", (req, res) => {
 // 	res.redirect(`/${uuidv4()}`);
 // });
